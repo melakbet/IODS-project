@@ -9,10 +9,12 @@ Introduction to Open Data Science is a course organized by Doctoral school in th
 
 ####*My github repository for IODS-project*
 
-[![Travis CI status](https://github.com/melakbet/IODS-project/GitHub_page.png)](https://github.com/melakbet/IODS-project/tree/5baffff2ca54082683a04d38b154f6deab2e6f79)  
+[![Alt Text](/home/melak/Open_data/IODS-project/GitHub_page.png)](https://github.com/melakbet/IODS-project/tree/e1b6b2612e548c628aef804df17eae4018038bb5)  
+
 
 
 <br/>
+
 ## **Tools and Methods for open and reproducible research**  
 
 In the first week of the course, I have gone through the general instructions of the course and get familiarize my self with the learning tools, the course content and schedule. Though I had previously experience with R and RStudio, I have done all the exercises and instructions given in **"_DataCamp: R Short and Sweet_"** and refresh my R. I completed all **"_R Short and Sweet_"** exercise and statement of accomplishment published [here](https://www.datacamp.com/statement-of-accomplishment/course/a29f417bea82486a5853864a36237669b5c7bb62). The other exerices, I have done in this first week is **"_RStudio Exercise 1_"**. I already had a GitHub account and to follow the exercises and instructions for this exercise, I forked the IODS-project repository from Tuomo Nieminen’s [github](https://github.com/TuomoNieminen/IODS-project). After forking, I clone the IODS-project repository to my local machine (my computer) using the command ```git clone```. After cloned the respostry to my computer, Using RStudio, I edited the existing Rmarkdown file (**_chapter1.Rmd, chapter2.Rmd and index.Rmd_**) in the repository and also add new Rmarkdown file and save as in the file name **_README.Rmd_**. Next, I commit the changes what have been done in the local machine using the git command ```git commit -m``` and finally  push to github using the command ```git push```. I have also canged the theme of my course diary web page to Merlot theme. In this exercises, I refresh my git and Github knowledge and also familiarize with how I will use the GitHub for this course to share and  publish my learning diary.
