@@ -1,0 +1,37 @@
+# **Introduction to Open Data Science Course**
+
+## **Open Data - Open Science - Data science**
+
+The learning platform for this course is MOOCs (Massive Open Online Courses) of the University of Helsinki: http://mooc.helsinki.fi. More information about the course can be found in this link: https://courses.helsinki.fi/en/hymy005/120776718
+
+
+## **Course Schedule**
+
+Time: Tuesdays 31.10 – 12.12.2017 /14:00 -16:00
+
+
+## **Course outline**
+
+Introduction and discussions
+
+1. Tools and methods for open and reproducible research. 
+2. Regression and model validation.
+3. Logistic regression. 
+4. Clustering and classification.
+5. Dimensionality reduction techniques.
+6. Final assignment.
+
+
+
+## **Course instructors**
+
+1. [Maija Absetz](https://mooc.helsinki.fi/user/profile.php?id=4891) 
+2. [Anna Eronen](https://mooc.helsinki.fi/user/profile.php?id=472)
+3. [Vesa V J Huotelin](https://mooc.helsinki.fi/user/profile.php?id=7771)
+4. [Petteri Mäntymaa](https://mooc.helsinki.fi/user/profile.php?id=1938)
+5. [Joni Oksanen](https://mooc.helsinki.fi/user/profile.php?id=2621)
+6. [Kimmo Vehkalahti](https://mooc.helsinki.fi/user/profile.php?id=154)
+
+
+
+*The link to my learning diary for this course available as [learning diary](https://melakbet.github.io/IODS-project/)*
