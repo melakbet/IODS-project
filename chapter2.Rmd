@@ -117,7 +117,7 @@ library(ggplot2)
 ```
 
 ```{r}
-students2014=read.table("/home/melak/Open_data/IODS-project/data/learning2014.txt", sep="\t", header=TRUE)
+students2014=read.table("data/learning2014.txt", sep="\t", header=TRUE)
 dim(students2014)
 str(students2014)
 
