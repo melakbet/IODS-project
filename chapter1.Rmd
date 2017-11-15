@@ -11,7 +11,7 @@ Introduction to Open Data Science is a course organized by Doctoral school in th
 <br/>
 
 
-#### *My github repository for IODS-project*
+#### My github repository for IODS-project
 
 [![GitHub](https://github.com/melakbet/IODS-project/blob/684f8790375ab6f436b306b9f0340f23dedadbff/GitHub_page.png?raw=true)](https://github.com/melakbet/IODS-project/tree/e1b6b2612e548c628aef804df17eae4018038bb5)  
 

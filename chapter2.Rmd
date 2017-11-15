@@ -8,8 +8,7 @@
 - Assume the reader has no previous knowledge of your data or the more advanced methods you are using  
 
 
-
-#### **Data wrangling**
+### **Data wrangling**
 
 
 
@@ -111,7 +110,7 @@ write.table(Learn2014_7_column_exclude_0 ,"/home/melak/Open_data/IODS-project/da
 
 ```
 
-#### **Analysis**
+### **Analysis**
 
 
 
