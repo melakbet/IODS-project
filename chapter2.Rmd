@@ -13,7 +13,7 @@
 
 
 
-In this section, the data set given in this [link](http://www.helsinki.fi/~kvehkala/JYTmooc/JYTOPKYS3-data.txt) has been  preprocess for further/downstream analysis. After creating a folder named 'data' in my IODS-project repository, using Rstudio a new R script named 'create_learning2014' file created and write all the steps  used in the data wrangling process and saved in the 'data' folder. All the steps I have done in the data wrangling preprocess can be find  [here](https://github.com/melakbet/IODS-project/data/create_learning2014.R) and/or code below.
+In this section, the data set given in this [link](http://www.helsinki.fi/~kvehkala/JYTmooc/JYTOPKYS3-data.txt) has been  preprocess for further/downstream analysis. After creating a folder named 'data' in my IODS-project repository, using Rstudio a new R script named **'create_learning2014'** file created and write all the steps  used in the data wrangling process and saved in the **'data'** folder. All the steps I have done in the data wrangling preprocess can be find  [here](https://github.com/melakbet/IODS-project/blob/master/data/create_learning2014.R) and/or code below.
 
 ```{r}
 #Mealk Weldenegodguad
