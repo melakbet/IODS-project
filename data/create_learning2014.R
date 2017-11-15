@@ -1,23 +1,5 @@
-## **Regression and Model validation**
-
-
-*Describe the work you have done this week and summarize your learning.*
-
-- Describe your work and results clearly. 
-- Assume the reader has an introductory course level understanding of writing and reading R code as well as statistical methods
-- Assume the reader has no previous knowledge of your data or the more advanced methods you are using  
-
-
-
-#### **Data wrangling**
-
-
-
-In this section, the data set given in this [link](http://www.helsinki.fi/~kvehkala/JYTmooc/JYTOPKYS3-data.txt) has been  preprocess for further/downstream analysis. After creating a folder named 'data' in my IODS-project repository, using Rstudio a new R script named 'create_learning2014' file created and write all the steps  used in the data wrangling process and saved in the 'data' folder. All the steps I have done in the data wrangling preprocess can be find  [here](https://github.com/melakbet/IODS-project/data/create_learning2014.R) and/or code below.
-
-```{r}
 #Mealk Weldenegodguad
-#date 14.11.2017
+#date 13.11.017
 #Preprocess a data set given in this link http://www.helsinki.fi/~kvehkala/JYTmooc/JYTOPKYS3-data.txt for further and downstream analysis
 
 #install.packages("dplyr")
@@ -32,7 +14,7 @@ Learn2014=read.table("http://www.helsinki.fi/~kvehkala/JYTmooc/JYTOPKYS3-data.tx
 
 # Using head function checking the first six rows
 
-#head(Learn2014)
+head(Learn2014)
 
 #The dimensions of the data can be checked using the code below
 
@@ -42,7 +24,7 @@ dim(Learn2014)
 
 #The structure of the data can be explored using the code below
 
-#str(Learn2014)#
+str(Learn2014)
 
 # The structure 'data.frame':	183 obs. of  60 variables:
 
@@ -52,6 +34,7 @@ dim(Learn2014)
 #Attitude  Da + Db + Dc + Dd + De + Df + Dg + Dh + Di + Dj
 
 Learn2014$attitude <- Learn2014$Attitude / 10
+
 
 # In order to Scale all combination variables to the original scales, select columns related to deep learning and scaling by taking the meand  and create column 'deep'  
 
@@ -107,11 +90,4 @@ setwd("/home/melak/Open_data/IODS-project/data/")
 write.table(Learn2014_7_column_exclude_0 ,"/home/melak/Open_data/IODS-project/data/learning2014.txt", sep="\t")
 
 #############################################################
-
-
-```
-
-#### **Analysis**
-
-
 
