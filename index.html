@@ -169,10 +169,9 @@ $(document).ready(function () {
 <h2><strong>Regression and Model validation</strong></h2>
 <div id="data-wrangling" class="section level3">
 <h3><strong>Data wrangling</strong></h3>
-<p>In this section, the data set given in this <a href="http://www.helsinki.fi/~kvehkala/JYTmooc/JYTOPKYS3-data.txt">link</a> has been preprocess for further/downstream analysis. After creating a folder named ‘data’ in my IODS-project repository, using Rstudio a new R script named <strong>‘create_learning2014’</strong> file created and write all the steps used in the data wrangling process and saved in the <strong>‘data’</strong> folder. All the steps I have done in the data wrangling preprocess can be find <a href="https://github.com/melakbet/IODS-project/blob/master/data/create_learning2014.R">here</a> and/or code below.</p>
+<p>In this section, the data set given in this <a href="http://www.helsinki.fi/~kvehkala/JYTmooc/JYTOPKYS3-data.txt">link</a> has been preprocess for further/downstream analysis. After creating a folder named <strong>‘data’</strong> in my IODS-project repository, using Rstudio a new R script named <strong>‘create_learning2014’</strong> file created and write all the steps used in the data wrangling process and saved in the <strong>‘data’</strong> folder. All the steps I have done in the data wrangling preprocess can be find <a href="https://github.com/melakbet/IODS-project/blob/master/data/create_learning2014.R">here</a> and/or in the code shown below.</p>
 <pre class="r"><code>#Mealk Weldenegodguad
 #date 14.11.2017
-#Preprocess a data set given in this link http://www.helsinki.fi/~kvehkala/JYTmooc/JYTOPKYS3-data.txt for further and downstream analysis
 
 #install.packages(&quot;dplyr&quot;)
 
@@ -199,11 +198,7 @@ Learn2014=read.table(&quot;http://www.helsinki.fi/~kvehkala/JYTmooc/JYTOPKYS3-da
 
 dim(Learn2014)</code></pre>
 <pre><code>## [1] 183  60</code></pre>
-<pre class="r"><code>#The dimensions of the fulll Learn2014 is 183 rows and 60 column
-
-#The structure of the data can be explored using the code below
-
-#str(Learn2014)#
+<pre class="r"><code>#str(Learn2014)#
 
 # The structure 'data.frame':   183 obs. of  60 variables:
 
@@ -214,7 +209,6 @@ dim(Learn2014)</code></pre>
 
 Learn2014$attitude &lt;- Learn2014$Attitude / 10
 
-# In order to Scale all combination variables to the original scales, select columns related to deep learning and scaling by taking the meand  and create column 'deep'  
 
 # To scale deep learning variables to the original scales, select columns related to deep learning and scaling by taking the mean and create column 'deep' 
 
@@ -260,7 +254,8 @@ dim(Learn2014_7_column_exclude_0)</code></pre>
 <pre><code>## [1] 166   7</code></pre>
 <pre class="r"><code># set the working diracroty using the R function &quot;setwd&quot;
 
-##############################################################3
+##############################################################
+
 setwd(&quot;/home/melak/Open_data/IODS-project/data/&quot;)
 
 # write the Preprocessed data i.e 166 by 7 to the file name learning2014.txt. the file is tab delmimted file 
@@ -271,7 +266,7 @@ write.table(Learn2014_7_column_exclude_0 ,&quot;/home/melak/Open_data/IODS-proje
 </div>
 <div id="analysis" class="section level3">
 <h3><strong>Analysis</strong></h3>
-<p>The data for this section is extracted from a survey conducted by <strong>Kimmo Vehkalahti</strong> on teaching and learning approaches. The research project made possible by the Academy of Sciences funding. The data was collected from 3.12.2014 - 10.1.2015.The surrvey includes 183 respondants and the questioner in toatal includes 60 variables/questions.</p>
+<p>The data for this section is extracted from a survey conducted by <strong>Kimmo Vehkalahti</strong> on teaching and learning approaches. The research project made possible by the Academy of Sciences funding to Teachers’ Academy funding (2013-2015). The data was collected from 3.12.2014 - 10.1.2015.The surrvey includes 183 respondants and the questioner in toatal includes 60 variables/questions.</p>
 <pre><code>## 
 ## Attaching package: 'GGally'</code></pre>
 <pre><code>## The following object is masked from 'package:dplyr':

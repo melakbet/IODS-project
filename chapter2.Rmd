@@ -5,12 +5,11 @@
 
 
 
-In this section, the data set given in this [link](http://www.helsinki.fi/~kvehkala/JYTmooc/JYTOPKYS3-data.txt) has been  preprocess for further/downstream analysis. After creating a folder named 'data' in my IODS-project repository, using Rstudio a new R script named **'create_learning2014'** file created and write all the steps  used in the data wrangling process and saved in the **'data'** folder. All the steps I have done in the data wrangling preprocess can be find  [here](https://github.com/melakbet/IODS-project/blob/master/data/create_learning2014.R) and/or code below.
+In this section, the data set given in this [link](http://www.helsinki.fi/~kvehkala/JYTmooc/JYTOPKYS3-data.txt) has been  preprocess for further/downstream analysis. After creating a folder named **'data'** in my IODS-project repository, using Rstudio a new R script named **'create_learning2014'** file created and write all the steps  used in the data wrangling process and saved in the **'data'** folder. All the steps I have done in the data wrangling preprocess can be find  [here](https://github.com/melakbet/IODS-project/blob/master/data/create_learning2014.R) and/or in the code shown below.
 
 ```{r}
 #Mealk Weldenegodguad
 #date 14.11.2017
-#Preprocess a data set given in this link http://www.helsinki.fi/~kvehkala/JYTmooc/JYTOPKYS3-data.txt for further and downstream analysis
 
 #install.packages("dplyr")
 
@@ -30,9 +29,7 @@ Learn2014=read.table("http://www.helsinki.fi/~kvehkala/JYTmooc/JYTOPKYS3-data.tx
 
 dim(Learn2014)
 
-#The dimensions of the fulll Learn2014 is 183 rows and 60 column
 
-#The structure of the data can be explored using the code below
 
 #str(Learn2014)#
 
@@ -45,7 +42,6 @@ dim(Learn2014)
 
 Learn2014$attitude <- Learn2014$Attitude / 10
 
-# In order to Scale all combination variables to the original scales, select columns related to deep learning and scaling by taking the meand  and create column 'deep'  
 
 # To scale deep learning variables to the original scales, select columns related to deep learning and scaling by taking the mean and create column 'deep' 
 
@@ -91,7 +87,8 @@ dim(Learn2014_7_column_exclude_0)
 
 # set the working diracroty using the R function "setwd"
 
-##############################################################3
+##############################################################
+
 setwd("/home/melak/Open_data/IODS-project/data/")
 
 # write the Preprocessed data i.e 166 by 7 to the file name learning2014.txt. the file is tab delmimted file 
@@ -105,7 +102,7 @@ write.table(Learn2014_7_column_exclude_0 ,"/home/melak/Open_data/IODS-project/da
 
 ### **Analysis**
 
-The data for this section is extracted from a survey conducted by **Kimmo Vehkalahti**  on teaching and learning approaches. The research project made possible by the Academy of Sciences funding. The data was collected from 3.12.2014 - 10.1.2015.The surrvey includes 183 respondants and the questioner in toatal includes 60 variables/questions.
+The data for this section is extracted from a survey conducted by **Kimmo Vehkalahti**  on teaching and learning approaches. The research project made possible by the Academy of Sciences funding to Teachers' Academy funding (2013-2015). The data was collected from 3.12.2014 - 10.1.2015.The surrvey includes 183 respondants and the questioner in toatal includes 60 variables/questions.
 
 ```{r, fig.width=11, fig.height=9, echo=FALSE}
 #Melak Weldenegodguad
