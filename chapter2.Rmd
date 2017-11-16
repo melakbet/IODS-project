@@ -25,7 +25,7 @@ library(ggplot2)
 students2014=read.table("data/learning2014.txt", sep="\t", header=TRUE)
 dim(students2014)
 str(students2014)
-
+summary(students2014)
 ```
 
 After preprocess the raw data,  the final data set have 7 column "gender, age, attitude, deep, stra, surf and points" and 166 indvidual as shown in the above run.
