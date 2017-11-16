@@ -1,9 +1,9 @@
 ---
-title: "IODS course project"
+title:  "IODS course project"
 author: "Melak Weldenegodguad"
 output:
   html_document:
-    code_folding: show
+    code_folding: hide
     fig_caption: yes
     fig_height: 4
     fig_width: 6
