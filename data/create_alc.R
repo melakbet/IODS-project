@@ -1,5 +1,5 @@
-#wget https://archive.ics.uci.edu/ml/machine-learning-databases/00320/student.zip
-#gunzip student.zip
+#sysstem("wget https://archive.ics.uci.edu/ml/machine-learning-databases/00320/student.zip")
+#system("unzip student.zip")
 
 #Mealk Weldenegodguad
 #dd.mm.yyy
