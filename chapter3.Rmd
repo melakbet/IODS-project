@@ -1,0 +1,11 @@
+## **Logistic regression**
+
+### **Data wrangling**
+
+
+In this section Data wrangling has been done for two data sets retrieved from [UCI Machine Learning Repository](http://archive.ics.uci.edu/ml/datasets.html). The R script used for data wrangling can be found [here](https://github.com/melakbet/IODS-project/blob/master/data/create_alc.R)
+
+
+### **Analysis**
+
+Two data setes were retrieved from the UCI Machine Learning Repository. The data sets are intend to apprach student achievement in secondary education two Portuguese schools. The data was collected by using school reports and questionaires that includes data alttributes (student grades, demographic, social and school related features). Two datasets are provided regarding the performance in two distinct subjects: Mathematics (mat) and Portuguese language (por) (Cortez *et al*. 2008), the two datasets were modeled under binary/five-level classification and regression tasks.
