@@ -463,13 +463,17 @@ loss_func &lt;-<span class="st"> </span><span class="cf">function</span>(class, 
 <span class="co"># compute the average number of wrong predictions in the (training) data</span>
 <span class="kw">loss_func</span>(modified_data<span class="op">$</span>high_use, modified_data<span class="op">$</span>probability)</code></pre></div>
 <pre><code>## [1] 0.2120419</code></pre>
+<p>The above 2x2 cross tabulation indicates that out of 382 observations 81 (65+ 16) were wrongly predicated. The average proportion of incorrect predictions in the data is about 21%.</p>
+<p><br /></p>
+<p><strong>Bonus</strong></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># K-fold cross-validation</span>
 
 cv &lt;-<span class="st"> </span><span class="kw">cv.glm</span>(<span class="dt">data =</span> modified_data, <span class="dt">cost =</span> loss_func, <span class="dt">glmfit =</span> m, <span class="dt">K =</span> <span class="dv">10</span>)
 
 <span class="co"># average number of wrong predictions in the cross validation</span>
 cv<span class="op">$</span>delta[<span class="dv">1</span>]</code></pre></div>
-<pre><code>## [1] 0.2094241</code></pre>
+<pre><code>## [1] 0.2146597</code></pre>
+<p>The 10-fold cross-validation result indicates is 0.2172775. There is no so much improvement in using the 10-fold cross-validation. There is no obvious smaller prediction error than what I have predicated in the above 2x2 cross tabulation (0.2120419).</p>
 <hr />
 </div>
 </div>
