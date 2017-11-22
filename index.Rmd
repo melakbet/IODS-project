@@ -1,15 +1,18 @@
 ---
 title:  __IODS course project__
-author: ___Melak Weldenegodguad___
+author: "Melak Weldenegodguad"
 output:
   html_document:
     code_folding: hide
     fig_caption: yes
     fig_height: 4
     fig_width: 6
-    theme: cosmo
+    theme: readable 
     toc: yes
     toc_depth: 3
+    highlight: pygments
+    toc_float: false
+    smooth_scroll: yes
   pdf_document:
     toc: yes
     toc_depth: '2'

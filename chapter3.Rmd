@@ -1,12 +1,75 @@
 ## **Logistic regression**
 
 ### **Data wrangling**
-
+```{r}
+library(GGally)
+library(ggplot2)
+library(ggpubr)
+```
 
 In this section Data wrangling has been done for two data sets retrieved from [UCI Machine Learning Repository](http://archive.ics.uci.edu/ml/datasets.html). The R script used for data wrangling can be found [here](https://github.com/melakbet/IODS-project/blob/master/data/create_alc.R)
 
 
 ### **Analysis**
 
-Two data setes were retrieved from the UCI Machine Learning Repository. The data sets are intend to apprach student achievement in secondary education two Portuguese schools. The data was collected by using school reports and questionaires that includes data alttributes (student grades, demographic, social and school related features). Two datasets are provided regarding the performance in two distinct subjects: Mathematics (mat) and Portuguese language (por) (Cortez *et al*. 2008).Multiple students answered both questionnaires in the two datasets. In the two datasetes there is no a mutual identifier variable to identify these students. Combining two data sets would have been easy, if the data have a single identification variable column. Hence in this case combination of mutual columns used as identifier. 
+
+
+The data setes used in this analysis were retrieved from the UCI Machine Learning Repository.The data sets are intend to apprach student achievement in two secondary education Portuguese schools. The data was collected by using school reports and questionaires that includes data alttributes (student grades, demographic, social and school related features). Two datasets are provided regarding the performance in two distinct subjects: Mathematics (mat) and Portuguese language (por) (Cortez *et al*. 2008). For this analysis, the original dataset (mat and por) have been modified so that the two separate datasets have been joined. Only students who are answered the questionnaire in both portuguese classe are kept. The final data sets used in this analysis includes a total of 382 observation and 35 attributes. 
+
+
+
+```{r}
+
+modified_data= read.table("/home/melak/Open_Data/IODS-project/data/modified_data.txt", sep="\t", header=TRUE)
+
+colnames(modified_data)
+
+```
+
+Inorder to study the relationship between high/low alcohol consumption and variables. I chose four variables ("absences", "sex", "goout" and "studytime"). My hypothesis about how each variable is related to alcohol consumption shown below:
+
+- **studytime**: Students who dedicate quite much amount of time in thire study, they don't have time to go out for drinking alchol (studytime and high/low alcohol consumption negatively correlated)
+
+- **sex**: Male students have higher alcohol consumption than female stduents (Male students and high/low alcohol consumption positively correlated)
+
+- **goout**: Those students going out with friends quite frequently consume high alchol than students don't going out. (goout and high/low alcohol consumption positively correlated)
+
+- **absences**: Those students who consume more alachol don't attend class for various reason (e.g hangover, attending party in class time ) (absences and high/low alcohol consumption positively correlated)
+
+
+<br/>
+
+
+ **The distributions of your chosen variables and their relationships with alcohol consumption**
+
+```{r, fig.width=10, fig.height=4}
+
+g1 <- ggplot(modified_data, aes(x = high_use, y = absences,col=sex))
+
+p1=g1 + geom_boxplot() + ylab("absences") + ggtitle("Student absences by alcohol consumption and sex")
+g2 <- ggplot(modified_data, aes(x = high_use, y = goout, col=sex))
+
+p2=g2 + geom_boxplot() + ylab("going out with friends")  + ggtitle("Student who going out with friends by alcohol consumption and sex") 
+ggarrange(p1, p2 , labels = c("A", "B"), ncol = 2, nrow = 1)
+
+
+```
+
+
+
+
+```{r}
+
+m <- glm(high_use ~  absences + sex +  goout + studytime , data = modified_data, family = "binomial")
+
+
+summary(m)
+
+coef(m)
+
+
+```
+
+
+As shown above all the four variables are statistically significant. *goout* has the lowest p-value suggesting a strong association of going out with friends and high/low alcohol consumption. The positive coefficient for *goout* predictor suggests that all other variables being equal, going out with friends increase alchol consumption. In the logit model, the response variable is log odds: $ln(odds) = ln(p/(1-p)) =\alpha+ \beta*x_1 + \beta*x_2 + … + \beta*x_n$. A unit increase in going out with friends increase the log odds by 0.72677. The variable *absences* and *sex* have also lowest p-vlaue 0.000499 and 0.003242, respectively. The positive coefficient for *absences*  suggests that all other variables being equal, a unit  increase in the *absences* increase  alchol consumption. A unit increase in absences increase the log odds by 0.07811. *sex* is also the ohter signifcant value with p-value (0.003242) and suggesting association of the sex of the student with high\low alchol consumption. The positive coefficient for *sex* suggests that all other variables being equal, the male students are high likely alchol consumption. The male student inccrease the log odds by 0.78173. *studytime* is also the other siginficant variable and the negative coefficient for this variable suggests that all other variables being equal, a unit increase in *studytime* reduces the alchol consumption.A unit increase in studytime reduces the log odds by by 0.42116.
 
