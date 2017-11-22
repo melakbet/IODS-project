@@ -5,6 +5,8 @@
 library(GGally)
 library(ggplot2)
 library(ggpubr)
+library(tidyr)
+library(dplyr)
 ```
 
 In this section Data wrangling has been done for two data sets retrieved from [UCI Machine Learning Repository](http://archive.ics.uci.edu/ml/datasets.html). The R script used for data wrangling can be found [here](https://github.com/melakbet/IODS-project/blob/master/data/create_alc.R)
@@ -40,7 +42,21 @@ Inorder to study the relationship between high/low alcohol consumption and varia
 <br/>
 
 
- **The distributions of your chosen variables and their relationships with alcohol consumption**
+##### **The distributions of my chosen variables and their relationships with alcohol consumption**
+<br/>
+**A bar plot for demonstrating the distributions of my chosen  variable**
+```{r, fig.width=9, fig.height=6}
+
+my_variables= c("absences", "sex", "goout", "studytime", "high_use")
+
+my_variables_data <- select(modified_data, one_of(my_variables))
+
+gather(my_variables_data) %>% ggplot(aes(value)) + facet_wrap("key", scales = "free") + geom_bar()
+
+```
+
+<br/>
+**A Box plot for demonstrating my chosen variables and their relationships with alcohol consumption**
 
 ```{r, fig.width=10, fig.height=4}
 
@@ -56,8 +72,6 @@ ggarrange(p1, p2 , labels = c("A", "B"), ncol = 2, nrow = 1)
 ```
 
 
-
-
 ```{r}
 
 m <- glm(high_use ~  absences + sex +  goout + studytime , data = modified_data, family = "binomial")
@@ -69,6 +83,8 @@ coef(m)
 
 
 ```
+
+
 
 
 As shown above all the four variables are statistically significant. *goout* has the lowest p-value suggesting a strong association of going out with friends and high/low alcohol consumption. The positive coefficient for *goout* predictor suggests that all other variables being equal, going out with friends increase alchol consumption. In the logit model, the response variable is log odds: $ln(odds) = ln(p/(1-p)) =\alpha+ \beta*x_1 + \beta*x_2 + … + \beta*x_n$. A unit increase in going out with friends increase the log odds by 0.72677. The variable *absences* and *sex* have also lowest p-vlaue 0.000499 and 0.003242, respectively. The positive coefficient for *absences*  suggests that all other variables being equal, a unit  increase in the *absences* increase  alchol consumption. A unit increase in absences increase the log odds by 0.07811. *sex* is also the ohter signifcant value with p-value (0.003242) and suggesting association of the sex of the student with high\low alchol consumption. The positive coefficient for *sex* suggests that all other variables being equal, the male students are high likely alchol consumption. The male student inccrease the log odds by 0.78173. *studytime* is also the other siginficant variable and the negative coefficient for this variable suggests that all other variables being equal, a unit increase in *studytime* reduces the alchol consumption.A unit increase in studytime reduces the log odds by by 0.42116.
