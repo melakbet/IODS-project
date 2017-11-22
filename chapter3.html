@@ -277,7 +277,7 @@ loss_func &lt;- function(class, prob) {
 # compute the average number of wrong predictions in the (training) data
 loss_func(modified_data$high_use, modified_data$probability)</code></pre>
 <pre><code>## [1] 0.2120419</code></pre>
-<p>The above 2x2 cross tabulation indicates that out of 382 observations 81 (65+ 16) were wrongly predicated. The average proportion of incorrect predictions in the data is about 21%.</p>
+<p>The above 2x2 cross tabulation indicates that out of 382 observations 81 (65+ 16) were wrongly predicated. The average proportion of incorrect predictions in the data is about 21%. My model has 21% error which is better than the model in DataCamp exercises.</p>
 <p><br /></p>
 <p><strong>Bonus</strong></p>
 <pre class="r"><code># K-fold cross-validation
@@ -286,7 +286,7 @@ cv &lt;- cv.glm(data = modified_data, cost = loss_func, glmfit = m, K = 10)
 
 # average number of wrong predictions in the cross validation
 cv$delta[1]</code></pre>
-<pre><code>## [1] 0.2172775</code></pre>
+<pre><code>## [1] 0.2120419</code></pre>
 <p>The 10-fold cross-validation result indicates is 0.2172775. There is no so much improvement in using the 10-fold cross-validation. There is no obvious smaller prediction error than what I have predicated in the above 2x2 cross tabulation (0.2120419).</p>
 </div>
 </div>

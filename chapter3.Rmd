@@ -154,7 +154,7 @@ loss_func <- function(class, prob) {
 # compute the average number of wrong predictions in the (training) data
 loss_func(modified_data$high_use, modified_data$probability)
 ```
-The above 2x2 cross tabulation indicates that out of 382 observations 81 (65+ 16) were wrongly predicated. The average proportion of incorrect predictions in the data is about 21%.
+The above 2x2 cross tabulation indicates that out of 382 observations 81 (65+ 16) were wrongly predicated. The average proportion of incorrect predictions in the data is about 21%. My model has  21% error which is better than the model in DataCamp exercises.
 
 <br/>
 
