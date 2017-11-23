@@ -339,7 +339,7 @@ plot_students2014</code></pre></div>
 <div id="analysis-1" class="section level3">
 <h3><strong>Analysis</strong></h3>
 <p>The data setes used in this analysis were retrieved from the UCI Machine Learning Repository.The data sets are intend to apprach student achievement in two secondary education Portuguese schools. The data was collected by using school reports and questionaires that includes data alttributes (student grades, demographic, social and school related features). Two datasets are provided regarding the performance in two distinct subjects: Mathematics (mat) and Portuguese language (por) (Cortez <em>et al</em>. 2008). For this analysis, the original dataset (mat and por) have been modified so that the two separate datasets have been joined. Only students who are answered the questionnaire in both portuguese classe are kept. The final data sets used in this analysis includes a total of 382 observation and 35 attributes.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">modified_data=<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;/home/melak/My_Google/Open_data/Open_Data_3_2/IODS-project/data/modified_data.txt&quot;</span>, <span class="dt">sep=</span><span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>, <span class="dt">header=</span><span class="ot">TRUE</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">modified_data=<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;data/modified_data.txt&quot;</span>, <span class="dt">sep=</span><span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>, <span class="dt">header=</span><span class="ot">TRUE</span>)
 
 <span class="kw">colnames</span>(modified_data)</code></pre></div>
 <pre><code>##  [1] &quot;school&quot;     &quot;sex&quot;        &quot;age&quot;        &quot;address&quot;    &quot;famsize&quot;   
@@ -389,7 +389,7 @@ p3=g3 <span class="op">+</span><span class="st"> </span><span class="kw">geom_bo
 <span class="co">#goout_high_use &lt;- CrossTable(my_variables_data$goout, my_variables_data$high_use)</span>
 <span class="co">#goout_high_use &lt;- CrossTable(my_variables_data$goout, my_variables_data$high_use)</span>
 <span class="co">#studytime_high_use &lt;- CrossTable(my_variables_data$studytime, my_variables_data$high_use)</span></code></pre></div>
-<p><br /> To statistically explore the relationship between my chosen variable and high/low alcohol consumption variable logistic regression moded was build using the R function <code>glm()</code>. To</p>
+<p><br /> To statistically explore the relationship between my chosen variable and high/low alcohol consumption variable logistic regression moded was build using the R function <code>glm()</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">m &lt;-<span class="st"> </span><span class="kw">glm</span>(high_use <span class="op">~</span><span class="st">  </span>absences <span class="op">+</span><span class="st"> </span>sex <span class="op">+</span><span class="st">  </span>goout <span class="op">+</span><span class="st"> </span>studytime , <span class="dt">data =</span> modified_data, <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)</code></pre></div>
 <p><br /> Inorder to be able to interpret the fitted model in detail, the summary, coefficients and confidence intervals of the fitted model are calculated as shown below.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(m)</code></pre></div>
@@ -472,7 +472,7 @@ cv &lt;-<span class="st"> </span><span class="kw">cv.glm</span>(<span class="dt"
 
 <span class="co"># average number of wrong predictions in the cross validation</span>
 cv<span class="op">$</span>delta[<span class="dv">1</span>]</code></pre></div>
-<pre><code>## [1] 0.2146597</code></pre>
+<pre><code>## [1] 0.2120419</code></pre>
 <p>The 10-fold cross-validation result indicates is 0.2172775. There is no so much improvement in using the 10-fold cross-validation. There is no obvious smaller prediction error than what I have predicated in the above 2x2 cross tabulation (0.2120419).</p>
 <hr />
 </div>

@@ -25,7 +25,7 @@ The data setes used in this analysis were retrieved from the UCI Machine Learnin
 
 ```{r}
 
-modified_data= read.table("/home/melak/My_Google/Open_data/Open_Data_3_2/IODS-project/data/modified_data.txt", sep="\t", header=TRUE)
+modified_data= read.table("data/modified_data.txt", sep="\t", header=TRUE)
 
 colnames(modified_data)
 
@@ -91,7 +91,7 @@ ggarrange(p1, p2, p3 , labels = c("A", "B","C"), ncol = 2, nrow = 2)
 #studytime_high_use <- CrossTable(my_variables_data$studytime, my_variables_data$high_use)
 ```
 <br/>
-To statistically explore the relationship between my chosen variable and high/low alcohol consumption variable logistic regression moded was build using the R function `glm()`. To 
+To statistically explore the relationship between my chosen variable and high/low alcohol consumption variable logistic regression moded was build using the R function `glm()`.
 
 ```{r}
 

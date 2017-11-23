@@ -153,7 +153,7 @@ library(boot)</code></pre>
 <div id="analysis" class="section level3">
 <h3><strong>Analysis</strong></h3>
 <p>The data setes used in this analysis were retrieved from the UCI Machine Learning Repository.The data sets are intend to apprach student achievement in two secondary education Portuguese schools. The data was collected by using school reports and questionaires that includes data alttributes (student grades, demographic, social and school related features). Two datasets are provided regarding the performance in two distinct subjects: Mathematics (mat) and Portuguese language (por) (Cortez <em>et al</em>. 2008). For this analysis, the original dataset (mat and por) have been modified so that the two separate datasets have been joined. Only students who are answered the questionnaire in both portuguese classe are kept. The final data sets used in this analysis includes a total of 382 observation and 35 attributes.</p>
-<pre class="r"><code>modified_data= read.table(&quot;/home/melak/My_Google/Open_data/Open_Data_3_2/IODS-project/data/modified_data.txt&quot;, sep=&quot;\t&quot;, header=TRUE)
+<pre class="r"><code>modified_data= read.table(&quot;data/modified_data.txt&quot;, sep=&quot;\t&quot;, header=TRUE)
 
 colnames(modified_data)</code></pre>
 <pre><code>##  [1] &quot;school&quot;     &quot;sex&quot;        &quot;age&quot;        &quot;address&quot;    &quot;famsize&quot;   
@@ -203,7 +203,7 @@ ggarrange(p1, p2, p3 , labels = c(&quot;A&quot;, &quot;B&quot;,&quot;C&quot;), n
 #goout_high_use &lt;- CrossTable(my_variables_data$goout, my_variables_data$high_use)
 #goout_high_use &lt;- CrossTable(my_variables_data$goout, my_variables_data$high_use)
 #studytime_high_use &lt;- CrossTable(my_variables_data$studytime, my_variables_data$high_use)</code></pre>
-<p><br /> To statistically explore the relationship between my chosen variable and high/low alcohol consumption variable logistic regression moded was build using the R function <code>glm()</code>. To</p>
+<p><br /> To statistically explore the relationship between my chosen variable and high/low alcohol consumption variable logistic regression moded was build using the R function <code>glm()</code>.</p>
 <pre class="r"><code>m &lt;- glm(high_use ~  absences + sex +  goout + studytime , data = modified_data, family = &quot;binomial&quot;)</code></pre>
 <p><br /> Inorder to be able to interpret the fitted model in detail, the summary, coefficients and confidence intervals of the fitted model are calculated as shown below.</p>
 <pre class="r"><code>summary(m)</code></pre>
@@ -286,7 +286,7 @@ cv &lt;- cv.glm(data = modified_data, cost = loss_func, glmfit = m, K = 10)
 
 # average number of wrong predictions in the cross validation
 cv$delta[1]</code></pre>
-<pre><code>## [1] 0.2120419</code></pre>
+<pre><code>## [1] 0.2146597</code></pre>
 <p>The 10-fold cross-validation result indicates is 0.2172775. There is no so much improvement in using the 10-fold cross-validation. There is no obvious smaller prediction error than what I have predicated in the above 2x2 cross tabulation (0.2120419).</p>
 </div>
 </div>
