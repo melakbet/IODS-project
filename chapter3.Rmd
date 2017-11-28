@@ -9,6 +9,7 @@ library(tidyr)
 library(dplyr)
 library(magrittr)
 library(gmodels)
+library(boot)
 ```
 
 In this section Data wrangling has been done for two data sets retrieved from [UCI Machine Learning Repository](http://archive.ics.uci.edu/ml/datasets.html). The R script used for data wrangling can be found [here](https://github.com/melakbet/IODS-project/blob/master/data/create_alc.R)
@@ -24,7 +25,7 @@ The data setes used in this analysis were retrieved from the UCI Machine Learnin
 
 ```{r}
 
-modified_data= read.table("/home/melak/Open_Data/IODS-project/data/modified_data.txt", sep="\t", header=TRUE)
+modified_data= read.table("data/modified_data.txt", sep="\t", header=TRUE)
 
 colnames(modified_data)
 
@@ -53,7 +54,12 @@ my_variables= c("absences", "sex", "goout", "studytime", "high_use")
 
 my_variables_data <- select(modified_data, one_of(my_variables))
 
+colnames(my_variables_data)
+
+
 gather(my_variables_data) %>% ggplot(aes(value)) + facet_wrap("key", scales = "free") + geom_bar()
+
+
 
 ```
 
@@ -74,7 +80,7 @@ g3 <- ggplot(modified_data, aes(x = high_use, y = studytime, col=sex))
 
 p3=g3 + geom_boxplot() + ylab("studytime - weekly study time")  + ggtitle("Student who dedicate time to study by alcohol consumption and sex") 
 
-ggarrange(p1, p2, p3 , labels = c("A", "B"), ncol = 2, nrow = 2)
+ggarrange(p1, p2, p3 , labels = c("A", "B","C"), ncol = 2, nrow = 2)
 
 
 ```
@@ -85,7 +91,7 @@ ggarrange(p1, p2, p3 , labels = c("A", "B"), ncol = 2, nrow = 2)
 #studytime_high_use <- CrossTable(my_variables_data$studytime, my_variables_data$high_use)
 ```
 <br/>
-To statistically explore the relationship between my chosen variable and high/low alcohol consumption variable logistic regression moded was build using the R function `glm()`. To 
+To statistically explore the relationship between my chosen variable and high/low alcohol consumption variable logistic regression moded was build using the R function `glm()`.
 
 ```{r}
 
@@ -113,3 +119,54 @@ cbind(OR,CI)
 <br/>
 As shown above all the four variables are statistically significant. *goout* has the lowest p-value suggesting a strong association of going out with friends and high/low alcohol consumption. The positive coefficient for *goout* predictor suggests that all other variables being equal, going out with friends increase alchol consumption. In the logit model, the response variable is log odds: $ln(odds) = ln(p/(1-p)) =\alpha+ \beta*x_1 + \beta*x_2 + … + \beta*x_n$. A unit increase in going out with friends increase the log odds by 0.72677. The variable *absences* and *sex* have also lowest p-vlaue 0.000499 and 0.003242, respectively. The positive coefficient for *absences*  suggests that all other variables being equal, a unit  increase in the *absences* increase  alchol consumption. A unit increase in absences increase the log odds by 0.07811. *sex* is also the ohter signifcant value with p-value (0.003242) and suggesting association of the sex of the student with high\\low alchol consumption. The positive coefficient for *sex* suggests that all other variables being equal, the male students are high likely alchol consumption. The male student inccrease the log odds by 0.78173. *studytime* is also the other siginficant variable and the negative coefficient for this variable suggests that all other variables being equal, a unit increase in *studytime* reduces the alchol consumption.A unit increase in studytime reduces the log odds by by 0.42116.
 
+The ratio of expected “success” to “failures” defined as odds: p/(1-p). Odds are an alternative way of expressing probabilities. Higher odds corresponds to a higher probability of success when OR > 1. The exponents of the coefficients of a logistic regression model interpreted as odds ratios between a unit change (vs no change) in the corresponding explanatory variable. The exponents of *goout* predector coefficient is 2.06838526 and this suggests a unit change in the goout while  all other the variables being equal, the odd ratio is 2.06838526. The exponents of *sex* predector coefficient is 2.18525582 and this suggests a unit change in the sex while  all other the variables being equal, the odd ratio is 2.18525582. In simlar way, The exponents of *absences* predector coefficient is 1.08123884 and this suggests a unit change in the *absences* while  all other the variables being equal, the odd ratio is 1.08123884. The exponents of *studytime* predector coefficient is 1.08123884 and this suggests a unit change in the *studytime* while  all other the variables being equal, the odd ratio is 0.65628388.  Hence odds ratio for the significant *goout, sex and absences*  variables  are 2.06838526, 2.1852558 and 1.08123884 respectively. It means that *goout, sex and absences* increase high alcohol consumption by the factor of around 2.07, 2.19 and 1.08. Whereas the odds ratio for *studytime* is 0.65628388 and it suggests that *studytime* decreases high alchol consumption.
+
+
+
+
+
+##### **Predictive power of the model**
+
+```{r}
+probabilities <- predict(m, type = "response")
+
+# add the predicted probabilities to 'modified_data'
+
+modified_data <- mutate(modified_data, probability = probabilities)
+
+# use the probabilities to make a prediction of high_use
+
+modified_data <- mutate(modified_data, prediction = probability>0.5)
+
+table(high_use = modified_data$high_use, prediction = modified_data$prediction)
+
+```
+
+```{r}
+# the logistic regression model m and dataset alc (with predictions) are available
+
+# define a loss function (average prediction error)
+loss_func <- function(class, prob) {
+  n_wrong <- abs(class - prob) > 0.5
+  mean(n_wrong)
+}
+
+# compute the average number of wrong predictions in the (training) data
+loss_func(modified_data$high_use, modified_data$probability)
+```
+The above 2x2 cross tabulation indicates that out of 382 observations 81 (65+ 16) were wrongly predicated. The average proportion of incorrect predictions in the data is about 21%. My model has  21% error which is better than the model in DataCamp exercises.
+
+<br/>
+
+**Bonus**
+```{r}
+# K-fold cross-validation
+
+cv <- cv.glm(data = modified_data, cost = loss_func, glmfit = m, K = 10)
+
+# average number of wrong predictions in the cross validation
+cv$delta[1]
+
+```
+
+The 10-fold cross-validation result indicates  is 0.2172775. There is no so much improvement in using the 10-fold cross-validation. There is no obvious smaller prediction error than what I have predicated in the above  2x2 cross tabulation (0.2120419).
