@@ -1,0 +1,159 @@
+## **Clustering and classification**
+
+```{r}
+#install.packages("corrplot") install corrplot package
+library(GGally)
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+library(MASS)
+library(corrplot)
+library(ggpubr)
+library(magrittr)
+library(gmodels)
+library(boot)
+library(knitr)
+library("DT")
+```
+
+```{r}
+# load the data
+data("Boston")
+
+str(Boston)
+dim(Boston)
+```
+
+The default installation of R comes with many (usally small) data sets. One of the data setes *__Boston__* we are dealing in this week exercise comes from MASS package. The data was originally published by (Harrison *et al*. 1978) that contains information about the Boston house-price data. Later the data was also published by (Belsley *et al*. 1980). The Boston dataset has 506 observations and 14 differeent variables. Details about the datasets can be found from this two link [[1]](https://stat.ethz.ch/R-manual/R-devel/library/MASS/html/Boston.html) and [[2]](http://lib.stat.cmu.edu/datasets/boston)
+
+<br/>
+
+__Visualizing the scatter plot matrix and examining the correltion between Boston variables__
+
+<br/>
+```{r, fig.width=13, fig.height=10}
+
+p1=ggpairs(Boston,title="scatter plot matrix with correlation") 
+p1 + theme(plot.title = element_text(size = rel(2)))
+
+```
+
+<br/>
+
+```{r, fig.width=11, fig.height=9}
+
+cor_matrix<-cor(Boston) %>% round(digits=2)
+
+# visualize the correlation matrix
+
+corrplot(cor_matrix, method="circle", type = "lower", cl.pos = "b", tl.col="black", tl.pos = "d", tl.cex = 1.2,title="Correlations plot",mar=c(0,0,1,0))
+
+#kable(summary(Boston))
+
+summary(Boston)
+
+```
+
+```{r, fig.width=11, fig.height=9}
+
+boston_scaled <- scale(Boston)
+
+summary(boston_scaled)
+
+
+boston_scaled<-as.data.frame(boston_scaled)
+
+bins <- quantile(boston_scaled$crim)
+crime <- cut(boston_scaled$crim, breaks = bins, include.lowest = TRUE, label=c("low", "med_low", "med_high", "high"))
+boston_scaled <- dplyr::select(boston_scaled, -crim)
+boston_scaled <- data.frame(boston_scaled, crime)
+pairs(boston_scaled[1:13], main = "Scaled scatter plot matrix",
+      pch = 21, bg = c("red", "green3", "blue","yellow")[boston_scaled$crime],
+      oma=c(4,4,6,12),upper.panel = NULL)
+par(xpd=TRUE)
+legend(0.85, 0.7, as.vector(unique(boston_scaled$crime)),  
+       fill=c("red", "green3", "blue","yellow"))
+
+
+
+n <- nrow(boston_scaled)
+
+# choose randomly 80% of the rows
+ind <- sample(n,  size = n * 0.8)
+
+train <- boston_scaled[ind,]
+
+test <- boston_scaled[-ind,]
+
+# save the correct classes from test data
+correct_classes <- test$crime
+
+# remove the crime variable from test data
+test <- dplyr::select(test, -crime)
+
+```
+
+
+
+```{r, fig.width=11, fig.height=9}
+
+
+# linear discriminant analysis
+lda.fit <- lda(crime ~ ., data = train)
+lda.fit
+lda.arrows <- function(x, myscale = 1, arrow_heads = 0.1, color = "red", tex = 0.75, choices = c(1,2)){
+  heads <- coef(x)
+  arrows(x0 = 0, y0 = 0, 
+         x1 = myscale * heads[,choices[1]], 
+         y1 = myscale * heads[,choices[2]], col=color, length = arrow_heads)
+  text(myscale * heads[,choices], labels = row.names(heads), 
+       cex = tex, col=color, pos=3)
+}
+
+classes <- as.numeric(train$crime)
+
+# plot the lda results
+plot(lda.fit, dimen = 2, col=classes)
+lda.arrows(lda.fit, myscale = 1.3)
+
+```
+
+```{r}
+
+lda.pred <- predict(lda.fit, newdata = test)
+
+table(correct = correct_classes, predicted = lda.pred$class)
+
+```
+
+```{r, fig.width=7, fig.height=6}
+
+data('Boston')
+
+boston_scaled2 <- scale(Boston)
+
+dist_eu <- dist(boston_scaled2)
+
+set.seed(12345)
+
+k_max <- 13
+
+twcss <- sapply(1:k_max, function(k){kmeans(boston_scaled2, k)$tot.withinss})
+
+#qplot(x = 1:k_max, y = twcss, geom =c("point", "line"),span = 0.2)
+
+# k-means clustering
+b=x = 1:k_max
+aa=data.frame(cbind(b,twcss))
+
+ggplot(data=aa, aes(x=b, y=twcss, group=1)) +
+  geom_line(color="red")+
+  geom_point()
+
+
+km <-kmeans(boston_scaled2, centers = 2)
+
+# plot the Boston dataset with clusters
+pairs(boston_scaled2, main = "K-means clustering",col = km$cluster, upper.panel = NULL)
+
+```
