@@ -1,0 +1,240 @@
+## **Clustering and classification**
+
+```{r}
+#install.packages("corrplot") install corrplot package
+#install.packages("kableExtra")
+library(GGally)
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+library(MASS)
+library(corrplot)
+library(ggpubr)
+library(magrittr)
+library(boot)
+library(knitr)
+library(kableExtra)
+#library("DT")
+```
+
+```{r}
+# load the data
+data("Boston")
+
+str(Boston)
+dim(Boston)
+```
+
+The default installation of R comes with many (usually small) data sets. One of the data sets *__Boston__* we are dealing in this week exercise comes from MASS package. The data was originally published by (Harrison *et al*. 1978) that contains information about the Boston house-price data and later the data was also published by (Belsley *et al*. 1980). The Boston dataset has 506 observations and 14 different variables. Details about the datasets can be found from this two link [[1]](https://stat.ethz.ch/R-manual/R-devel/library/MASS/html/Boston.html) and [[2]](http://lib.stat.cmu.edu/datasets/boston)
+
+<br/>
+
+
+**Boston summary table**
+
+```{r}
+Boston_summary= do.call(cbind, lapply(Boston, summary))
+
+kable(Boston_summary,"html", caption="Boston summary table") %>%   kable_styling(bootstrap_options ="condensed",  font_size = 13, full_width = F, position = "left") %>% column_spec(1:1, bold = T,color = "white", background = "green") %>% row_spec(0, bold = T,  color = "white", background = "green")
+
+```
+__Visualizing the scatter plot matrix and examining the correltion between Boston dataset variables__
+
+<br/>
+```{r, fig.width=13, fig.height=10}
+
+p1=ggpairs(Boston,title="scatter plot matrix with correlation") 
+p1 + theme(plot.title = element_text(size = rel(2)))
+
+```
+
+<br/>
+
+```{r, fig.width=11, fig.height=9}
+
+cor_matrix<-cor(Boston) %>% round(digits=2)
+
+# visualize the correlation matrix
+
+corrplot(cor_matrix, method="circle", type = "lower", cl.pos = "b", tl.col="black", tl.pos = "d", tl.cex = 1.2,title="Correlations plot",mar=c(0,0,1,0))
+```
+
+<br/>
+The above scatter plot matrix and correlation plot describe the distributions of the variables and the relationships between them. In the scatterplot matrix , the diagonal cells show histograms of each of the variables, the lower panel of the scatterplot matrix displayed a scatterplot of a pair of variables and the upper panel of the scatterplot matrix displayed the correlation value of a pair of variables. The correlation plot is a colored representation of the Boston correlation value whare  the values are represented as different colors. The correlation values are ranging from red to blue (-1 to 1) and white is the middle value that is zero. For example, in the above correlation plot, we can see that the relation between **__index of accessibility to radial highways (rad)__** and **__full-value property-tax rate per \$10,000 (tax)__** represented in  high intensity  blue color circle and the scatter plot displayed a correlation value 0.91. Hence, as the index of accessibility to radial highways increases the  full-value property tax rate per $10,000 also increase and vice versa. Moreover the above correlation plot displayed high intensity red color circle for the variables *__nitrogen oxides concentration (parts per 10 million) (nox)__* and *__weighted mean of distances to five Boston employment centres (dis)__* and the scatter plot matrix displayed the correlation value -0.77. Hence, as the *__nox__* increases, the *__dis__* decrease and vice versa.
+
+
+
+```{r}
+boston_scaled <- scale(Boston)
+
+
+boston_scaled<-as.data.frame(boston_scaled)
+```
+
+<br/>
+
+**Boston scaled summary table**
+
+```{r, fig.width=11, fig.height=9}
+
+
+Boston_summary_scaled= do.call(cbind, lapply(boston_scaled, summary))
+
+kable(Boston_summary_scaled,"html") %>%   kable_styling(bootstrap_options ="condensed",  font_size = 13, full_width = F, position = "left") %>% column_spec(1:1, bold = T,color = "white", background = "green") %>% row_spec(0, bold = T,  color = "white", background = "green")
+
+```
+One of the main goal of standardizeing the data is allows to compare different data setes. The Boston data setes is scaled using the R funciton __`scale()`__.  From the above summary table of the scaled data set, we can clearly see that each variable has a mean 0.
+
+```{r,fig.width=11, fig.height=9}
+
+bins <- quantile(boston_scaled$crim)
+crime <- cut(boston_scaled$crim, breaks = bins, include.lowest = TRUE, label=c("low", "med_low", "med_high", "high"))
+boston_scaled <- dplyr::select(boston_scaled, -crim)
+boston_scaled <- data.frame(boston_scaled, crime)
+pairs(boston_scaled[1:13], main = "Scaled scatter plot matrix",
+      pch = 21, bg = c("red", "green3", "blue","yellow")[boston_scaled$crime],
+      oma=c(4,4,6,12),upper.panel = NULL)
+par(xpd=TRUE)
+legend(0.85, 0.7, as.vector(unique(boston_scaled$crime)),  
+       fill=c("red", "green3", "blue","yellow"))
+```
+In scaling the Boston variable, subtract its mean and divided by its standard devaiation and all the mean became 0. moreover all the Boston varabiable is standardized using the formula $\frac{X-\mu}{\sigma}$, there is a change in each of the varible values and we can clearly see big differnce in scaled Boston and orginal Boston data set. For example, if we compare the summary table of the scaled and orginal Boston data set the maximum and minum values are not the same and also the Quantile values. However the corrlation values has not changed in both datasets.
+
+```{r,fig.width=11, fig.height=9}
+n <- nrow(boston_scaled)
+
+# choose randomly 80% of the rows
+ind <- sample(n,  size = n * 0.8)
+
+train <- boston_scaled[ind,]
+
+test <- boston_scaled[-ind,]
+
+# save the correct classes from test data
+correct_classes <- test$crime
+
+# remove the crime variable from test data
+test <- dplyr::select(test, -crime)
+
+```
+
+
+
+```{r, echo=FALSE}
+
+
+# linear discriminant analysis
+lda.fit <- lda(crime ~ ., data = train)
+lda.fit
+```
+<br/>
+From the above prior probabilities, we can see that the proportion of each groups **__"low, med_low, med_high, high"__* in the total observation. Approximately the counts of each group is about 25% of the total observation of the Boston data set.
+Moreover the  group means displayed the mean values of each variable in each groups and we can see that how the mean differs between the groups. Coefficients of linear discriminants is the coefficient of each of variables in the linear combination of the variables. For example the first discriminant function is a linear combination of the variables:
+$0.0888*zn + 0.0891*indus -0.0846*chas + 0.165*nox..........+ 0.179*lstat + 0.221*medv$. The proportion of trace explains the between groups variance, in my analysis we can see that the first discriminant explains more than 95% of the between group variance in the Boston dataset
+
+<br/>
+
+```{r,fig.width=11, fig.height=9}
+
+lda.arrows <- function(x, myscale = 1, arrow_heads = 0.1, color = "red", tex = 0.75, choices = c(1,2)){
+  heads <- coef(x)
+  arrows(x0 = 0, y0 = 0, 
+         x1 = myscale * heads[,choices[1]], 
+         y1 = myscale * heads[,choices[2]], col=color, length = arrow_heads)
+  text(myscale * heads[,choices], labels = row.names(heads), 
+       cex = tex, col=color, pos=3)
+}
+
+classes <- as.numeric(train$crime)
+
+# plot the lda results
+plot(lda.fit, dimen = 2, col=classes)
+lda.arrows(lda.fit, myscale = 1.4)
+
+```
+<br/>
+In the above biplot, *__the index of accessibility to radial highways (rad)__* has the largest possible variance (that is, accounts for as much of the variability in the Boston data as possible). 
+<br/>
+```{r}
+
+lda.pred <- predict(lda.fit, newdata = test)
+
+table(correct = correct_classes, predicted = lda.pred$class)
+
+```
+Every time I run the code the cross-tabulation value is differnt due to random sample of the train and test data.However in the cross-tabulation, we can see that my model correctly predicted approximately about  70% and my model Misclassification rate approximately 30
+
+
+```{r, fig.width=11, fig.height=6}
+
+data('Boston')
+
+boston_scaled2 <- scale(Boston)
+
+dist_eu <- dist(boston_scaled2)
+
+set.seed(12345)
+
+k_max <- 13
+
+twcss <- sapply(1:k_max, function(k){kmeans(boston_scaled2, k)$tot.withinss})
+
+#qplot(x = 1:k_max, y = twcss, geom =c("point", "line"),span = 0.2)
+
+# k-means clustering
+b=x = 1:k_max
+aa=data.frame(cbind(b,twcss))
+
+ggplot(data=aa, aes(x=b, y=twcss, group=1)) +
+  geom_line(color="red")+
+  geom_point() + ggtitle("Optimal Number of Clusters")
+
+```
+
+<br/>
+
+One way to determine the number of clusters is to look at how the total of within cluster sum of squares (WCSS) behaves when the number of cluster changes. Using the Elbow method, for each successive increase in the number of clusters, the substantial decrease in the within groups sum of squares wcss was observed. The optimal number of clusters is identified when the radical total WCSS drops observed in the line plot. From the above ggpairs plot, we can say that after 2 clusters the observed difference in the within-cluster dissimilarity is not radical. Consequently, we can say with some reasonable confidence that the optimal number of clusters to be used is 2.
+
+<br/>
+
+Assuming the above optimal number cluster is valid and the K-Means algorithm run again and plot the results are displayed below:
+
+<br/>
+
+```{r,fig.width=11, fig.height=9}
+
+km <-kmeans(boston_scaled2, centers = 2)
+
+# plot the Boston dataset with clusters
+pairs(boston_scaled2, main = "K-means clustering",col = km$cluster, upper.panel = NULL)
+
+```
+
+**Bonus**
+
+```{r,fig.width=11, fig.height=9}
+boston_scaled_bonus<-as.data.frame(scale(Boston))
+set.seed(12345)
+km_bonus<-kmeans(dist_eu, centers = 4)
+
+myclust<-data.frame(km_bonus$cluster)
+boston_scaled_bonus$clust<-km_bonus$cluster
+lda.fit_bonus<-lda(clust~., data = boston_scaled_bonus)
+lda.fit_bonus
+
+
+lda.arrows <- function(x, myscale = 1, arrow_heads = 0.1, color = "red", tex = 0.75, choices = c(1,2)){
+  heads <- coef(x)
+  arrows(x0 = 0, y0 = 0, 
+         x1 = myscale * heads[,choices[1]], 
+         y1 = myscale * heads[,choices[2]], col=color, length = arrow_heads)
+  text(myscale * heads[,choices], labels = row.names(heads), 
+       cex = tex, col=color, pos=3)
+}
+
+
+# plot the lda results
+plot(lda.fit_bonus, dimen = 2, col=classes)
+lda.arrows(lda.fit_bonus, myscale = 3)
+
+```
