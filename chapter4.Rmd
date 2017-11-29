@@ -225,7 +225,7 @@ km_bonus<-kmeans(dist_eu, centers = 4)
 myclust<-data.frame(km_bonus$cluster)
 boston_scaled_bonus$clust<-km_bonus$cluster
 lda.fit_bonus<-lda(clust~., data = boston_scaled_bonus)
-lda.fit_bonus
+#lda.fit_bonus
 
 
 lda.arrows <- function(x, myscale = 1, arrow_heads = 0.1, color = "red", tex = 0.75, choices = c(1,2)){
@@ -234,13 +234,13 @@ lda.arrows <- function(x, myscale = 1, arrow_heads = 0.1, color = "red", tex = 0
          x1 = myscale * heads[,choices[1]], 
          y1 = myscale * heads[,choices[2]], col=color, length = arrow_heads)
   text(myscale * heads[,choices], labels = row.names(heads), 
-       cex = tex, col=color, pos=3)
+       cex = tex, col=color, pos=2.5)
 }
 
 
 # plot the lda results
 plot(lda.fit_bonus, dimen = 2, col=classes)
-lda.arrows(lda.fit_bonus, myscale = 3)
+lda.arrows(lda.fit_bonus, myscale = 2)
 
 ```
 In the above biplot, the proportion of non-retail business acres per town (indus) has the largest possible variance (that is, accounts for as much of the variability in the Boston data as possible) when I used the cluster number 4.
