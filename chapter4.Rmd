@@ -240,7 +240,7 @@ lda.arrows <- function(x, myscale = 1, arrow_heads = 0.1, color = "red", tex = 0
 
 # plot the lda results
 plot(lda.fit_bonus, dimen = 2, col=classes)
-lda.arrows(lda.fit_bonus, myscale = 2)
+lda.arrows(lda.fit_bonus, myscale = 2.6)
 
 ```
 In the above biplot, the proportion of non-retail business acres per town (indus) has the largest possible variance (that is, accounts for as much of the variability in the Boston data as possible) when I used the cluster number 4.
