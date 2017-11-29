@@ -34,10 +34,7 @@ output:
 ```
   
 ***
-<<<<<<< HEAD
 
-=======
->>>>>>> e18f7b164863e75552bff26f01c84057bc7249f7
 ```{r child = "chapter4.Rmd"}
 ```
   
