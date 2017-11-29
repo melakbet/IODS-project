@@ -202,7 +202,7 @@ One way to determine the number of clusters is to look at how the total of withi
 
 <br/>
 
-Assuming the above optimal number cluster is valid and the K-Means algorithm run again and plot the results are displayed below:
+Assuming the above optimal number cluster is valid and the K-Means algorithm run again and the plot results are displayed below:
 
 <br/>
 
