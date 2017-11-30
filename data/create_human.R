@@ -5,7 +5,6 @@ library(dplyr)
 library(MASS)
 library(corrplot)
 
-
 hd <- read.csv("http://s3.amazonaws.com/assets.datacamp.com/production/course_2218/datasets/human_development.csv", stringsAsFactors = F)
 
 gii <- read.csv("http://s3.amazonaws.com/assets.datacamp.com/production/course_2218/datasets/gender_inequality.csv", stringsAsFactors = F, na.strings = "..")
@@ -64,3 +63,5 @@ human <- inner_join(gii,hd, by="Country")
 
 head(human)
 dim(human)
+
+write.table(human, "data/human.csv")
