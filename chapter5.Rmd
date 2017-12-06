@@ -125,3 +125,39 @@ Among 36 columns (variables), I choose the following variables:
 5. Do you drink tea after lunch (yes, no) **lunch**
 6. Do you think tea is slimming (yes, no) ** slimming**
 7. Does tea have an effect on health (yes, no) **health**
+
+```{r, fig.width=13, fig.height=10}
+#select my interest of variables 
+keep_columns <-  c("Tea", "home", "sugar", "always", "lunch","slimming", "health")
+#my interest of  new dataset
+tea_my <- dplyr::select(tea, one_of(keep_columns))
+
+str(tea_my)
+
+
+g1<-gather(tea_my) %>% ggplot(aes(value)) + facet_wrap("key", scales = "free") 
+g1+ geom_bar() + theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 8))
+summary(tea_my)
+```
+
+
+```{r, fig.width=13, fig.height=10}
+# multiple correspondence analysis
+mca <- MCA(tea_my, graph = FALSE)
+# summary of the model
+summary(mca)
+
+```
+About 50.5 % of the variation is captured by first three dimensions, firs one capturing 19.21% of the variance, second one 16.29% and third one 14.99% of the variance.The Categorical variables shows the squared correlations between the variables and dimensions. Type of Tea  has strong squared correlation to first dimension (0.552) and modest squared correlation to both dimensions two (0.232) and three (0.392 ). slimming has strong squared correlation to dimension two (0.545)  and smallest squared correlation to both dimensions one (0.010) and three (0.022).
+
+<br/>
+
+```{r, fig.width=13, fig.height=10}
+# visualize MCA
+plot(mca, invisible=c("ind"),habillage = "quali")
+
+
+```
+<br/>
+
+The MCA biplot shows how similar the variables are with each other. It seems that ‘type of tea’ and ‘drinking tea after lunch’ are very similar, and ‘not tea time’ and ‘male’. The type of tea most similar with ‘sugar’ is ‘Earl Grey’ dringking after 'lunch'.
