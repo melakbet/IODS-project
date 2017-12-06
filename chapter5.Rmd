@@ -14,7 +14,7 @@ library(knitr)
 library(kableExtra)
 library(FactoMineR)
 ```
-
+### **The Human dataset**
 ```{r}
 human<-read.table("data/human.csv")
 str(human)
@@ -33,10 +33,10 @@ human_summary= do.call(cbind, lapply(human, summary))
 kable(human_summary,"html", caption="human data summary table") %>%   kable_styling(bootstrap_options ="condensed",  font_size = 14, full_width = F) %>% column_spec(1:1, bold = T,color = "white", background = "green") %>% row_spec(0, bold = T,  color = "white", background = "green")
 
 ```
-
+<br/>
 __Visualizing the scatter plot matrix and examining the correltion between human data variables__
 
-<br/>
+
 ```{r, fig.width=13, fig.height=10}
 
 p1=ggpairs(human,title="scatter plot matrix with correlation") 
@@ -102,6 +102,7 @@ From the standardized PCA plot, we can see that four variables, namely Edu.Exp, 
 
 <br/>
 
+### **The Tea dataset**
 
 The tea data we are dealing in this week exercise comes from comes the R package "FactoMineR". It is data frame with 300 rows and 36 columns.  The data used here came from the survey conducted on a sample of 300 tea consumers.
 
